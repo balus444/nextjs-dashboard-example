@@ -1,5 +1,7 @@
 'use client';
 
+{
+  /*
 import * as React from 'react';
 import { Bar, BarChart, CartesianGrid, XAxis } from 'recharts';
 
@@ -13,7 +15,7 @@ import {
 import {
   ChartConfig,
   ChartContainer,
-  ChartTooltip,
+  ChartTooltip, 
   ChartTooltipContent
 } from '@/components/ui/chart';
 
@@ -209,6 +211,252 @@ export function BarGraph() {
                       year: 'numeric'
                     });
                   }}
+                />
+              }
+            />
+            <Bar dataKey={activeChart} fill={`var(--color-${activeChart})`} />
+          </BarChart>
+        </ChartContainer>
+      </CardContent>
+    </Card>
+  );
+}
+
+*/
+}
+
+import * as React from 'react';
+import { Bar, BarChart, CartesianGrid, XAxis } from 'recharts';
+
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle
+} from '@/components/ui/card';
+import {
+  ChartConfig,
+  ChartContainer,
+  ChartTooltip,
+  ChartTooltipContent
+} from '@/components/ui/chart';
+
+export const description = 'An interactive bar chart';
+
+const chartData = [
+  { date: '2024-05-06', conservative: 6000000, aggressive: 4000000 }, // 10M
+  { date: '2024-05-07', conservative: 6200000, aggressive: 3900000 }, // 10.1M
+  { date: '2024-05-08', conservative: 6100000, aggressive: 3800000 }, // 9.9M
+  { date: '2024-05-09', conservative: 5900000, aggressive: 4200000 }, // 10.1M
+  { date: '2024-05-10', conservative: 5800000, aggressive: 4300000 }, // 10.1M
+  { date: '2024-05-11', conservative: 5700000, aggressive: 4400000 }, // 10.1M
+  { date: '2024-05-12', conservative: 6000000, aggressive: 3500000 }, // 9.5M
+  { date: '2024-05-13', conservative: 5800000, aggressive: 3700000 }, // 9.5M
+  { date: '2024-05-14', conservative: 6000000, aggressive: 3600000 }, // 9.6M
+  { date: '2024-05-15', conservative: 6100000, aggressive: 3700000 }, // 9.8M
+  { date: '2024-05-16', conservative: 6000000, aggressive: 3900000 }, // 9.9M
+  { date: '2024-05-17', conservative: 6200000, aggressive: 3500000 }, // 9.7M
+  { date: '2024-05-18', conservative: 6000000, aggressive: 3800000 }, // 9.8M
+  { date: '2024-05-19', conservative: 5900000, aggressive: 3900000 }, // 9.8M
+  { date: '2024-05-20', conservative: 6100000, aggressive: 3700000 }, // 9.8M
+  { date: '2024-05-21', conservative: 6000000, aggressive: 3900000 }, // 9.9M
+  { date: '2024-05-22', conservative: 6100000, aggressive: 3800000 }, // 9.9M
+  { date: '2024-05-23', conservative: 5900000, aggressive: 4100000 }, // 10M
+  { date: '2024-05-24', conservative: 6000000, aggressive: 4000000 }, // 10M
+  { date: '2024-05-25', conservative: 6200000, aggressive: 3800000 }, // 10M
+  { date: '2024-05-26', conservative: 6000000, aggressive: 4000000 }, // 10M
+  { date: '2024-05-27', conservative: 5900000, aggressive: 4100000 }, // 10M
+  { date: '2024-05-28', conservative: 5800000, aggressive: 4200000 }, // 10M
+  { date: '2024-05-29', conservative: 6000000, aggressive: 4000000 }, // 10M
+  { date: '2024-05-30', conservative: 6200000, aggressive: 3900000 }, // 10.1M
+  { date: '2024-05-31', conservative: 6100000, aggressive: 3800000 }, // 9.9M
+  { date: '2024-06-01', conservative: 5900000, aggressive: 4200000 }, // 10.1M
+  { date: '2024-06-02', conservative: 5800000, aggressive: 4300000 }, // 10.1M
+  { date: '2024-06-03', conservative: 5700000, aggressive: 4400000 }, // 10.1M
+  { date: '2024-06-04', conservative: 6000000, aggressive: 3500000 }, // 9.5M
+  { date: '2024-06-05', conservative: 5800000, aggressive: 3700000 }, // 9.5M
+  { date: '2024-06-06', conservative: 6000000, aggressive: 3600000 }, // 9.6M
+  { date: '2024-06-07', conservative: 6100000, aggressive: 3700000 }, // 9.8M
+  { date: '2024-06-08', conservative: 6000000, aggressive: 3900000 }, // 9.9M
+  { date: '2024-06-09', conservative: 6200000, aggressive: 3500000 }, // 9.7M
+  { date: '2024-06-10', conservative: 6000000, aggressive: 3800000 }, // 9.8M
+  { date: '2024-06-11', conservative: 5900000, aggressive: 3900000 }, // 9.8M
+  { date: '2024-06-12', conservative: 6100000, aggressive: 3700000 }, // 9.8M
+  { date: '2024-06-13', conservative: 6000000, aggressive: 3900000 }, // 9.9M
+  { date: '2024-06-14', conservative: 6100000, aggressive: 3800000 }, // 9.9M
+  { date: '2024-06-15', conservative: 5900000, aggressive: 4100000 }, // 10M
+  { date: '2024-06-16', conservative: 6000000, aggressive: 4000000 }, // 10M
+  { date: '2024-06-17', conservative: 6200000, aggressive: 3800000 }, // 10M
+  { date: '2024-06-18', conservative: 6000000, aggressive: 4000000 }, // 10M
+  { date: '2024-06-19', conservative: 5900000, aggressive: 4100000 }, // 10M
+  { date: '2024-06-20', conservative: 5800000, aggressive: 4200000 }, // 10M
+  { date: '2024-06-21', conservative: 6000000, aggressive: 4000000 }, // 10M
+  { date: '2024-06-22', conservative: 6200000, aggressive: 3900000 }, // 10.1M
+  { date: '2024-06-23', conservative: 6100000, aggressive: 3800000 }, // 9.9M
+  { date: '2024-06-24', conservative: 5900000, aggressive: 4200000 }, // 10.1M
+  { date: '2024-06-25', conservative: 5800000, aggressive: 4300000 }, // 10.1M
+  { date: '2024-06-26', conservative: 5700000, aggressive: 4400000 }, // 10.1M
+  { date: '2024-06-27', conservative: 6000000, aggressive: 3500000 }, // 9.5M
+  { date: '2024-06-28', conservative: 5800000, aggressive: 3700000 }, // 9.5M
+  { date: '2024-06-29', conservative: 6000000, aggressive: 3600000 }, // 9.6M
+  { date: '2024-06-30', conservative: 6100000, aggressive: 3700000 }, // 9.8M
+  { date: '2024-07-01', conservative: 6000000, aggressive: 3900000 }, // 9.9M
+  { date: '2024-07-02', conservative: 6200000, aggressive: 3500000 }, // 9.7M
+  { date: '2024-07-03', conservative: 6000000, aggressive: 3800000 }, // 9.8M
+  { date: '2024-07-04', conservative: 5900000, aggressive: 3900000 }, // 9.8M
+  { date: '2024-07-05', conservative: 6100000, aggressive: 3700000 }, // 9.8M
+  { date: '2024-07-06', conservative: 6000000, aggressive: 3900000 }, // 9.9M
+  { date: '2024-07-07', conservative: 6100000, aggressive: 3800000 }, // 9.9M
+  { date: '2024-07-08', conservative: 5900000, aggressive: 4100000 }, // 10M
+  { date: '2024-07-09', conservative: 6000000, aggressive: 4000000 }, // 10M
+  { date: '2024-07-10', conservative: 6200000, aggressive: 3800000 }, // 10M
+  { date: '2024-07-11', conservative: 6000000, aggressive: 4000000 }, // 10M
+  { date: '2024-07-12', conservative: 5900000, aggressive: 4100000 }, // 10M
+  { date: '2024-07-13', conservative: 5800000, aggressive: 4200000 }, // 10M
+  { date: '2024-07-14', conservative: 6000000, aggressive: 4000000 }, // 10M
+  { date: '2024-07-15', conservative: 6200000, aggressive: 3900000 }, // 10.1M
+  { date: '2024-07-16', conservative: 6100000, aggressive: 3800000 }, // 9.9M
+  { date: '2024-07-17', conservative: 5900000, aggressive: 4200000 }, // 10.1M
+  { date: '2024-07-18', conservative: 5800000, aggressive: 4300000 }, // 10.1M
+  { date: '2024-07-19', conservative: 5700000, aggressive: 4400000 }, // 10.1M
+  { date: '2024-07-20', conservative: 6000000, aggressive: 3500000 }, // 9.5M
+  { date: '2024-07-21', conservative: 5800000, aggressive: 3700000 }, // 9.5M
+  { date: '2024-07-22', conservative: 6000000, aggressive: 3600000 }, // 9.6M
+  { date: '2024-07-23', conservative: 6100000, aggressive: 3700000 }, // 9.8M
+  { date: '2024-07-24', conservative: 6000000, aggressive: 3900000 }, // 9.9M
+  { date: '2024-07-25', conservative: 6200000, aggressive: 3500000 }, // 9.7M
+  { date: '2024-07-26', conservative: 6000000, aggressive: 3800000 }, // 9.8M
+  { date: '2024-07-27', conservative: 5900000, aggressive: 3900000 }, // 9.8M
+  { date: '2024-07-28', conservative: 6100000, aggressive: 3700000 }, // 9.8M
+  { date: '2024-07-29', conservative: 6000000, aggressive: 3900000 }, // 9.9M
+  { date: '2024-07-30', conservative: 6100000, aggressive: 3800000 }, // 9.9M
+  { date: '2024-07-31', conservative: 5900000, aggressive: 4100000 }, // 10M
+  { date: '2024-08-01', conservative: 6000000, aggressive: 4000000 }, // 10M
+  { date: '2024-08-02', conservative: 6200000, aggressive: 3800000 }, // 10M
+  { date: '2024-08-03', conservative: 6000000, aggressive: 4000000 }, // 10M
+  { date: '2024-08-04', conservative: 5500000, aggressive: 5250000 } // 10.75M
+];
+
+const lastDateData = chartData[chartData.length - 1];
+
+const formatCurrency = (value: number) => {
+  return `HK$${(value / 1000000).toFixed(2)}M`;
+};
+
+const chartConfig = {
+  conservative: {
+    label: 'Conservative',
+    color: 'hsl(var(--chart-1))'
+  },
+  aggressive: {
+    label: 'Aggressive',
+    color: 'hsl(var(--chart-2))'
+  }
+} satisfies ChartConfig;
+
+export function BarGraph() {
+  const [activeChart, setActiveChart] =
+    React.useState<keyof typeof chartConfig>('conservative');
+
+  const total = React.useMemo(
+    () => ({
+      conservative: chartData.reduce((acc, curr) => acc + curr.conservative, 0),
+      aggressive: chartData.reduce((acc, curr) => acc + curr.aggressive, 0)
+    }),
+    []
+  );
+
+  return (
+    <Card>
+      <CardHeader className="flex flex-col items-stretch space-y-0 border-b p-0 sm:flex-row">
+        <div className="flex flex-1 flex-col justify-center gap-1 px-6 py-5 sm:py-6">
+          <CardTitle>AUM Growth</CardTitle>
+          <CardDescription>Showing over the last 3 months</CardDescription>
+        </div>
+        {/* <div className="flex">
+          {['conservative', 'aggressive'].map((key) => {
+            const chart = key as keyof typeof chartConfig;
+            return (
+              <button
+                key={chart}
+                data-active={activeChart === chart}
+                className="relative flex flex-1 flex-col justify-center gap-1 border-t px-6 py-4 text-left even:border-l data-[active=true]:bg-muted/50 sm:border-l sm:border-t-0 sm:px-8 sm:py-6"
+                onClick={() => setActiveChart(chart)}
+              >
+                <span className="text-xs text-muted-foreground">
+                  {chartConfig[chart].label}
+                </span>
+                <span className="text-lg font-bold leading-none sm:text-3xl">
+                  {total[key as keyof typeof total].toLocaleString('en-US', { style: 'currency', currency: 'HKD' })}
+                </span>
+              </button>
+            );
+          })}
+        </div> */}
+
+        <div className="flex">
+          {['conservative', 'aggressive'].map((key) => {
+            const chart = key as keyof typeof chartConfig;
+            return (
+              <button
+                key={chart}
+                data-active={activeChart === chart}
+                className="relative flex flex-1 flex-col justify-center gap-1 border-t px-6 py-4 text-left even:border-l data-[active=true]:bg-muted/50 sm:border-l sm:border-t-0 sm:px-8 sm:py-6"
+                onClick={() => setActiveChart(chart)}
+              >
+                <span className="text-xs text-muted-foreground">
+                  {chartConfig[chart].label}
+                </span>
+                <span className="text-lg font-bold leading-none sm:text-3xl">
+                  {formatCurrency(lastDateData[chart])}
+                </span>
+              </button>
+            );
+          })}
+        </div>
+      </CardHeader>
+      <CardContent className="px-2 sm:p-6">
+        <ChartContainer
+          config={chartConfig}
+          className="aspect-auto h-[280px] w-full"
+        >
+          <BarChart
+            accessibilityLayer
+            data={chartData}
+            margin={{
+              left: 12,
+              right: 12
+            }}
+          >
+            <CartesianGrid vertical={false} />
+            <XAxis
+              dataKey="date"
+              tickLine={false}
+              axisLine={false}
+              tickMargin={8}
+              minTickGap={32}
+              tickFormatter={(value) => {
+                const date = new Date(value);
+                return date.toLocaleDateString('en-US', {
+                  month: 'short',
+                  day: 'numeric'
+                });
+              }}
+            />
+            <ChartTooltip
+              content={
+                <ChartTooltipContent
+                  className="w-[150px]"
+                  nameKey="views"
+                  labelFormatter={(value) => {
+                    return new Date(value).toLocaleDateString('en-US', {
+                      month: 'short',
+                      day: 'numeric',
+                      year: 'numeric'
+                    });
+                  }}
+                  formatter={(value) => formatCurrency(value)}
                 />
               }
             />

@@ -28,8 +28,11 @@ import {
   User,
   User2Icon,
   UserX2Icon,
-  X
+  X,
+  Microsoft //importing microsoft icon
 } from 'lucide-react';
+
+import { MicrosoftIcon } from 'lucide-react';
 
 export type Icon = LucideIcon;
 
@@ -78,5 +81,6 @@ export const Icons = {
     </svg>
   ),
   twitter: Twitter,
+  microsoft: MicrosoftIcon,
   check: Check
 };
